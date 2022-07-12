@@ -37,6 +37,31 @@ export default function Filme() {
     return () => {}
   }, [navigate, id])
 
+  function salvarFilme() {
+    const minhaLista = localStorage.getItem('@primeflix')
+
+    // Precisa verificar se a lista existe, se não existir iniciar em um array vazio
+    // json para converter novamente em uma lista
+    let filmesSalvos = JSON.parse(minhaLista) || []
+
+    // Depois de criar eu preciso verificar se o filma está dentro do storage
+    // some é um método para verificar se dentro da lista tem pelo um item com a comparação que eu fizer
+    const hasFilme = filmesSalvos.some(
+      filmesSalvos => filmesSalvos.id === filme.id
+    )
+
+    if (hasFilme) {
+      alert('esse filme já está na lista')
+      return
+    }
+
+    // Para colocar um item na array
+    // Stringfy para transformar em uma string, já que não conseguimos salvar uma array
+    filmesSalvos.push(filme)
+    localStorage.setItem('@primeflix', JSON.stringify(filmesSalvos))
+    alert('Filme salvo com sucesso')
+  }
+
   if (loading) {
     return (
       <div className="filme-info">
@@ -57,11 +82,11 @@ export default function Filme() {
       <strong>Avaliação: {filme.vote_average} / 10</strong>
 
       <div className="area-buttons">
-        <button>Salvar</button>
+        <button onClick={salvarFilme}>Salvar</button>
         <button>
           <a
             // Usamos o target para abrir o trailer em outra guia
-            target="_blank"
+            target="blank"
             rel="external"
             href={`https://youtube.com/results?search_query=${filme.title} Trailer`}
           >
