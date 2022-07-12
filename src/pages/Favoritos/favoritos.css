@@ -37,3 +37,9 @@
   color: #116feb;
   margin-right: 14px;
 }
+
+.meus-filmes div button{
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 6px;
+}
