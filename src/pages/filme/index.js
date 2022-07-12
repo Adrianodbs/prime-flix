@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 import api from '../../services/api'
 
@@ -7,6 +7,7 @@ import './filme-info.css'
 
 export default function Filme() {
   const { id } = useParams()
+  const navigate = useNavigate()
   const [filme, setFilme] = useState({})
   const [loading, setLoading] = useState(true)
 
@@ -26,13 +27,15 @@ export default function Filme() {
         // Em caso de erro ele vai cair no catch
         .catch(() => {
           console.log('filme não encontrado')
+          navigate('/', { replace: true })
+          return
         })
     }
 
     loadFilme()
 
     return () => {}
-  }, [])
+  }, [navigate, id])
 
   if (loading) {
     return (
@@ -56,7 +59,14 @@ export default function Filme() {
       <div className="area-buttons">
         <button>Salvar</button>
         <button>
-          <a href="#">Trailer</a>
+          <a
+            // Usamos o target para abrir o trailer em outra guia
+            target="_blank"
+            rel="external"
+            href={`https://youtube.com/results?search_query=${filme.title} Trailer`}
+          >
+            Trailer
+          </a>
         </button>
       </div>
     </div>
