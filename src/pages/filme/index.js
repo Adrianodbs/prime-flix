@@ -5,6 +5,8 @@ import api from '../../services/api'
 
 import './filme-info.css'
 
+import { toast } from 'react-toastify'
+
 export default function Filme() {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -51,7 +53,7 @@ export default function Filme() {
     )
 
     if (hasFilme) {
-      alert('esse filme já está na lista')
+      toast.warn('Esse filme já está na sua lista')
       return
     }
 
@@ -59,7 +61,7 @@ export default function Filme() {
     // Stringfy para transformar em uma string, já que não conseguimos salvar uma array
     filmesSalvos.push(filme)
     localStorage.setItem('@primeflix', JSON.stringify(filmesSalvos))
-    alert('Filme salvo com sucesso')
+    toast.success('Filme salvo com sucesso')
   }
 
   if (loading) {
